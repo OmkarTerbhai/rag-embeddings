@@ -14,8 +14,6 @@ os.environ.setdefault("LLM_MODEL", "gemini-3.8-flash");
 if not os.environ.get("GEMINI_API_KEY") :
     raise ValueError("GEMINI KEY is not set");
 
-
-
 vertexai.init(
     project=os.getenv("GOOGLE_CLOUD_PROJECT")
 )
@@ -38,7 +36,7 @@ def build_store(facts: list[Document]) -> InMemoryVectorStore :
 
 vector_db = build_store(to_documents(FACTS));
 
-QUESTION = input("Query the document corpus: ");
+
 
 def answer(query: str, store: InMemoryVectorStore , k=3) :
     relevant_facts = store.similarity_search(query=query, k=k);
@@ -57,5 +55,5 @@ def answer(query: str, store: InMemoryVectorStore , k=3) :
     return text_response.text;
 
 
-
+QUESTION = input("Query the document corpus: ");
 print("Answer with RAG: ", answer(QUESTION, vector_db));
