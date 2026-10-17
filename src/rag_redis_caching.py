@@ -27,7 +27,7 @@ set_llm_cache(
     RedisSemanticCache(
         embeddings=embeddings_model,
         redis_url="redis://localhost:6379",
-        distance_threshold=0.1
+        distance_threshold=0.5
     )
 );
 
@@ -51,7 +51,7 @@ print("============Second Request (Semantic Cache Hit==========");
 print(f"Response: {res2.content}");
 print(f"Time Taken: {time.time() - start_time:.2f} seconds");
 
-p3 = "What is the capital of India?";
+p3 = "What is the capital of Germany?";
 start_time = time.time();
 res3 = llm.invoke(p3);
 
@@ -59,10 +59,27 @@ print("============Third Request (Semantic Cache Miss==========");
 print(f"Response: {res3.content}");
 print(f"Time Taken: {time.time() - start_time:.2f} seconds");
 
-p4 = "What is the capital of India?";
+p4 = "What is the capital of Germany?";
 start_time = time.time();
 res4 = llm.invoke(p4);
 
 print("============Fourth Request (Semantic Cache Hit==========");
 print(f"Response: {res4.content}");
 print(f"Time Taken: {time.time() - start_time:.2f} seconds");
+
+
+#------------------------------------------------------------------------------
+#---------------------------------Sample Output--------------------------------
+# ============First Request (API Call)============
+# Response: [{'type': 'text', 'text': 'The capital of France is Paris.', 'extras': {'signature': ''}}]
+# Time taken: 0.65 seconds
+# ============Second Request (Semantic Cache Hit==========
+# Response: [{'type': 'text', 'text': "France's capital is **Paris**! Good luck with the quiz!", 'extras': {''}}]
+# Time Taken: 0.65 seconds
+# ============Third Request (Semantic Cache Miss==========
+# Response: [{'type': 'text', 'text': 'The capital of France is Paris.', 'extras': {'signature': ''}}]
+# Time Taken: 0.61 seconds
+# ============Fourth Request (Semantic Cache Hit==========
+# Response: [{'type': 'text', 'text': 'The capital of France is Paris.', 'extras': {'signature': ''}}]
+# Time Taken: 0.68 seconds
+#--------------------------------------------------------------------------------------------------------------------------------------------
