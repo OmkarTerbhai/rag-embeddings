@@ -27,7 +27,7 @@ set_llm_cache(
     RedisSemanticCache(
         embeddings=embeddings_model,
         redis_url="redis://localhost:6379",
-        distance_threshold=0.03
+        distance_threshold=0.1
     )
 );
 
